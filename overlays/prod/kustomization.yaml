@@ -1,0 +1,26 @@
+# Ambiente de produção: http://localhost:8082
+# As tags das imagens e o versao-api.env são atualizados pelo workflow "Release".
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gerenciador-gastos-prod
+resources:
+  - ../../base
+images:
+  - name: ghcr.io/fabioluisaf/gerenciador-gastos-api
+    newTag: inicial
+  - name: ghcr.io/fabioluisaf/gerenciador-gastos-web
+    newTag: inicial
+configMapGenerator:
+  - name: api-config
+    literals:
+      - SPRING_PROFILES_ACTIVE=prod
+    envs:
+      - versao-api.env
+patches:
+  - target:
+      kind: Service
+      name: web
+    patch: |-
+      - op: replace
+        path: /spec/ports/0/port
+        value: 8082

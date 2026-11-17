@@ -1,0 +1,77 @@
+# PostgreSQL com volume persistente.
+# Credenciais no Secret "gerenciador-gastos-db" (criado manualmente, fora do git).
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app.kubernetes.io/name: db
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: db
+  ports:
+    - name: postgres
+      port: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db
+  labels:
+    app.kubernetes.io/name: db
+spec:
+  serviceName: db
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: db
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: db
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: postgres
+          image: postgres:18-alpine
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: banco
+                  key: DB_NOME
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: gerenciador-gastos-db
+                  key: DB_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gerenciador-gastos-db
+                  key: DB_PASSWORD
+          ports:
+            - name: postgres
+              containerPort: 5432
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", 'pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB"']
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - name: dados
+              mountPath: /var/lib/postgresql
+  volumeClaimTemplates:
+    - metadata:
+        name: dados
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 1Gi

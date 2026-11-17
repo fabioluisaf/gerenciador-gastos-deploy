@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: gerenciador-gastos
+
+resources:
+  - db.yaml
+  - api.yaml
+  - web.yaml
+
+configMapGenerator:
+  - name: banco
+    literals:
+      - DB_NOME=gerenciador_gastos
+      - DB_URL=jdbc:postgresql://db:5432/gerenciador_gastos
