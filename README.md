@@ -12,13 +12,14 @@ O desenvolvimento roda na máquina local (run config da IDE + `npm start`), fora
 ## Fluxo
 
 ```
-Pipeline (manual, escolhe a branch)            ->  testes + imagem ghcr.io/...:sha-<commit>
-Release  (manual, mesma branch + versão X.Y.Z) ->  tag X.Y.Z na imagem, commit neste repositório
-                                                   e GitHub Release vX.Y.Z
-Argo CD                                        ->  detecta o commit e atualiza o namespace
+git tag X.Y.Z && git push origin X.Y.Z
+Pipeline (manual, na tag X.Y.Z)  ->  testes + imagem ghcr.io/...:X.Y.Z
+Release  (manual, na tag X.Y.Z)  ->  commit neste repositório + GitHub Release X.Y.Z
+Argo CD                          ->  detecta o commit e atualiza o namespace
 ```
 
 Rode a Pipeline e a Release separadamente em cada repositório (backend e frontend).
+Rodar a Release em uma tag antiga faz rollback para aquela versão.
 
 ## Estrutura
 
