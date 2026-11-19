@@ -40,7 +40,7 @@ spec:
               value: http://gastos-api:8080
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
           readinessProbe:
             httpGet:
               path: /
@@ -50,5 +50,7 @@ spec:
             requests:
               cpu: 25m
               memory: 32Mi
+              ephemeral-storage: 32Mi
             limits:
               memory: 128Mi
+              ephemeral-storage: 128Mi
