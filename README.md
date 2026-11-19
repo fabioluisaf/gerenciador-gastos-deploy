@@ -24,7 +24,7 @@ Rodar a Release em uma tag antiga faz rollback para aquela versão.
 ## Estrutura
 
 ```
-base/              db (PostgreSQL), api (Spring Boot), web (nginx + Angular)
+base/              db (PostgreSQL), gastos-api (Spring Boot), web (nginx + Angular)
 overlays/prod/     namespace, tags das imagens, perfil prod, porta 8082
 argocd/            Application do Argo CD (aplicada uma única vez)
 ```

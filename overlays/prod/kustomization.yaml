@@ -11,7 +11,7 @@ images:
   - name: ghcr.io/fabioluisaf/gerenciador-gastos-web
     newTag: 1.1.1
 configMapGenerator:
-  - name: api-config
+  - name: gastos-api-config
     literals:
       - SPRING_PROFILES_ACTIVE=prod
     envs:

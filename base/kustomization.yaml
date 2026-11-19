@@ -7,7 +7,7 @@ labels:
 
 resources:
   - db.yaml
-  - api.yaml
+  - gastos-api.yaml
   - web.yaml
 
 configMapGenerator:
