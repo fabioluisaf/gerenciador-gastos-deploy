@@ -7,7 +7,7 @@ resources:
   - ../../base
 images:
   - name: ghcr.io/fabioluisaf/gerenciador-gastos-api
-    newTag: 1.4.10
+    newTag: 2.0.0
   - name: ghcr.io/fabioluisaf/gerenciador-gastos-web
     newTag: 2.0.1
 configMapGenerator:
