@@ -51,8 +51,9 @@ spec:
           env:
             - name: PORTA_APP
               value: "8080"
+            # -XX:-UseBASE64Intrinsics: mitigacao do Java4Shell (CVE-2026-114938)
             - name: JAVA_OPTS
-              value: "-XX:MaxRAMPercentage=75"
+              value: "-XX:MaxRAMPercentage=75 -XX:-UseBASE64Intrinsics"
             - name: DB_URL
               valueFrom:
                 configMapKeyRef:
@@ -88,5 +89,7 @@ spec:
             requests:
               cpu: 100m
               memory: 384Mi
+              ephemeral-storage: 64Mi
             limits:
               memory: 768Mi
+              ephemeral-storage: 256Mi
