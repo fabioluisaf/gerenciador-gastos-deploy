@@ -9,7 +9,7 @@ images:
   - name: ghcr.io/fabioluisaf/gerenciador-gastos-api
     newTag: 2.2.0
   - name: ghcr.io/fabioluisaf/gerenciador-gastos-web
-    newTag: 2.1.0
+    newTag: 2.2.0
 configMapGenerator:
   - name: gastos-api-config
     literals:
